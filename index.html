@@ -5,8 +5,12 @@
 	<title>Curso Leaflet</title>
 	<link rel="stylesheet" type="text/css" href="src/leaflet.css" />
 	<link rel="stylesheet" type="text/css" href="src/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="src/plugins/L.Control.Pan.css" />
+	<link rel="stylesheet" type="text/css" href="src/plugins/L.Control.Zoomslider.css" />
 	<script type="text/javascript" src="src/leaflet-src.js"></script>
 	<script type="text/javascript" src="src/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="src/plugins/L.Control.Pan.js"></script>
+	<script type="text/javascript" src="src/plugins/L.Control.Zoomslider.js"></script>
 	<style type="text/css">
 		#mapdiv { height: 100vh; }
 	</style>
@@ -40,17 +44,27 @@
 		var ctlZoom;
 		var ctlAttribute;
 		var ctlScale;
+		var ctlPan;
+		var ctlZoomslider;
 		//var popExample;
 
 		$(function(){
 
 			mymap = L.map('mapdiv', {
-								center: [19.4, -99.2],
-								zoom: 13, zoomControl: false, attributionControl:false
+								center: [19.43262, -99.13325],
+								zoom: 12,
+								zoomControl: false,
+								maxZoom: 15,
+								minZoom: 9,
+								attributionControl:false
 							});
 			lyrOSM = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
 			
 			mymap.addLayer(lyrOSM);
+			//lyrOSM.addTo(mymap);
+
+			ctlPan = L.control.pan().addTo(mymap);
+			ctlZoomslider = L.control.zoomslider().addTo(mymap);
 
 			ctlZoom = L.control.zoom({zoomInText: 'In', zoomOutText: 'Out', position: 'bottomright'}).addTo(mymap);
 
@@ -118,11 +132,11 @@
 			});
 
 			$('#btnLocate').click(function(){
-				mymap.locate();
+				mymap.setView([19.43262, -99.13325], 12);
 			});
 
 			$('#btnZocalo').click(function(){
-				mymap.setView([19.43262, -99.13325], 17);
+				mymap.setView([19.43262, -99.13325], 15);
 				mymap.openPopup(popZocalo);
 			});
 
